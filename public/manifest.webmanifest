@@ -1,0 +1,14 @@
+{
+  "name": "MbeukChurch - Gestion d'eglise",
+  "short_name": "MbeukChurch",
+  "description": "Application de gestion d'eglise offline-first",
+  "start_url": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0f2744",
+  "theme_color": "#0f2744",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "name": "mbeukchurch",
+  "version": "3.1.0",
+  "description": "MbeukChurch — Church Management System (SaaS/PWA, offline-first)",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "mbeuk-hub-sdk": "file:./vendor/mbeuk-hub-sdk"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0"
+  }
+}

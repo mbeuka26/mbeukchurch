@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guide de Sécurité Manuel — MbeukChurch × Hub Central</title>
+<style>
+  :root{
+    --bg:#0a0e14; --bg2:#0f1520; --panel:#131a24; --line:#1f2937;
+    --red:#e5484d; --red2:#ff6b6f; --redbg:#2a1216; --redbd:#5c1f24;
+    --amber:#f0b429; --amberbg:#2a2110; --amberbd:#5c4a1f;
+    --green:#3ecf8e; --greenbg:#0f2a1e; --greenbd:#1f5c3f;
+    --ink:#e6e9ef; --muted:#8b96a8; --mono:'Cascadia Code',Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'Segoe UI',Arial,sans-serif;line-height:1.65}
+  header{background:linear-gradient(135deg,#0a0e14 0%,#1a0d0f 60%,#241014 100%);border-bottom:1px solid var(--redbd);padding:44px 24px 34px;position:relative;overflow:hidden}
+  header::before{content:'';position:absolute;top:-40%;right:-10%;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(229,72,77,.14),transparent 70%)}
+  header .wrap{max-width:980px;margin:0 auto;position:relative}
+  .kicker{display:inline-flex;align-items:center;gap:8px;background:var(--redbg);border:1px solid var(--redbd);color:var(--red2);font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border-radius:20px;margin-bottom:16px}
+  header h1{margin:0 0 8px;font-size:1.75rem;color:#fff}
+  header p{margin:0;color:var(--muted);font-size:.95rem;max-width:640px}
+  nav.toc{max-width:980px;margin:-18px auto 0;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 22px;position:relative;box-shadow:0 20px 50px rgba(0,0,0,.4)}
+  nav.toc h2{font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 10px}
+  nav.toc ul{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
+  nav.toc a{display:inline-block;padding:7px 13px;background:#0d1420;border:1px solid var(--line);border-radius:20px;color:var(--ink);text-decoration:none;font-size:.8rem;font-weight:600}
+  nav.toc a:hover{border-color:var(--redbd);color:var(--red2)}
+  main{max-width:980px;margin:0 auto;padding:40px 24px 90px}
+  section{margin-bottom:44px}
+  h2{color:#fff;font-size:1.3rem;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+  h2 .num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:var(--redbg);border:1px solid var(--redbd);color:var(--red2);font-size:.85rem;font-weight:800}
+  h3{color:var(--ink);font-size:1rem;margin:22px 0 10px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:14px}
+  .sev{display:inline-block;font-size:.65rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:3px 10px;border-radius:10px;margin-left:8px;vertical-align:middle}
+  .sev.crit{background:var(--redbg);color:var(--red2);border:1px solid var(--redbd)}
+  .sev.high{background:var(--amberbg);color:var(--amber);border:1px solid var(--amberbd)}
+  .sev.done{background:var(--greenbg);color:var(--green);border:1px solid var(--greenbd)}
+  code,.mono{background:#0d1420;color:#9fd8ff;padding:2px 7px;border-radius:6px;font-family:var(--mono);font-size:.86em;border:1px solid var(--line)}
+  pre{background:#0d1420;border:1px solid var(--line);color:#d7e0ef;padding:16px 18px;border-radius:12px;overflow-x:auto;font-size:.84rem;font-family:var(--mono)}
+  pre code{background:none;border:none;padding:0;color:inherit}
+  .callout{border-left:4px solid var(--redbd);background:var(--redbg);color:#ffb3b6;padding:14px 18px;border-radius:0 10px 10px 0;margin:14px 0;font-size:.88rem}
+  .callout strong{display:block;color:var(--red2);margin-bottom:4px}
+  .callout.amber{border-left-color:var(--amberbd);background:var(--amberbg);color:#ffe1a3}
+  .callout.amber strong{color:var(--amber)}
+  .callout.green{border-left-color:var(--greenbd);background:var(--greenbg);color:#b7f5d8}
+  .callout.green strong{color:var(--green)}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.85rem}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+  th{color:var(--muted);font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.04em}
+  .steps{list-style:none;margin:0;padding:0;counter-reset:step}
+  .steps>li{counter-increment:step;padding:14px 0 14px 42px;position:relative;border-bottom:1px solid var(--line)}
+  .steps>li:last-child{border-bottom:none}
+  .steps>li::before{content:counter(step);position:absolute;left:0;top:14px;width:26px;height:26px;border-radius:8px;background:var(--redbg);border:1px solid var(--redbd);color:var(--red2);font-weight:800;font-size:.8rem;display:flex;align-items:center;justify-content:center}
+  .checklist{list-style:none;padding:0;margin:0}
+  .checklist li{padding:9px 0 9px 30px;position:relative;border-bottom:1px solid var(--line);font-size:.9rem}
+  .checklist li:last-child{border-bottom:none}
+  .checklist li::before{content:'▢';position:absolute;left:0;top:9px;color:var(--red2)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr}}
+  a{color:#7fb8ff}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;padding:30px 24px;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <span class="kicker">🛡️ Sécurité · Action requise de votre part</span>
+    <h1>Guide de Remédiation Manuelle</h1>
+    <p>MbeukChurch × Hub Central MbeukTechnologies — actions que <strong>vous seul</strong> pouvez effectuer (consoles Hub, Vercel, Supabase). Le code, lui, a déjà été audité et durci séparément — voir <code>AUDIT_SECURITE.md</code>.</p>
+  </div>
+</header>
+
+<nav class="toc">
+  <h2>Sommaire</h2>
+  <ul>
+    <li><a href="#etat">État des lieux</a></li>
+    <li><a href="#rotation">Rotation des clés</a></li>
+    <li><a href="#rls">RLS Supabase (BYODB)</a></li>
+    <li><a href="#ratelimit">Rate limiting réseau</a></li>
+    <li><a href="#sessions">Révocation de sessions</a></li>
+    <li><a href="#doute">En cas de doute d'intrusion</a></li>
+    <li><a href="#bonnes-pratiques">Bonnes pratiques à maintenir</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<section id="etat">
+  <h2><span class="num">i</span>État des lieux — à lire en premier</h2>
+  <div class="card">
+    <p>Ce guide liste des actions <strong>manuelles</strong>, à effectuer depuis des interfaces web (Hub, Vercel, Supabase) auxquelles le code n'a pas accès. Elles complètent — et ne remplacent pas — les correctifs déjà appliqués dans le code (voir <code>AUDIT_SECURITE.md</code> pour le détail technique : contrôle d'accès sur les routes de gestion d'appareils, XSS corrigé, rate limiting applicatif, en-têtes de sécurité HTTP, validations d'entrée).</p>
+    <div class="callout amber">
+      <strong>Important</strong>
+      Aucune preuve d'intrusion réelle n'a été constatée pendant cet audit — ce document ne part pas du principe qu'une fuite a eu lieu. S'il y a un doute concret (comportement anormal observé, alerte du Hub, etc.), traitez ce doute avec la section <a href="#doute">"En cas de doute d'intrusion"</a> en priorité.
+    </div>
+  </div>
+</section>
+
+<section id="rotation">
+  <h2><span class="num">1</span>Rotation des clés API <span class="sev high">Recommandé</span></h2>
+  <div class="card">
+    <p>Même si aucune fuite n'est confirmée, une rotation périodique des secrets est une bonne hygiène — et devient <strong>indispensable</strong> si l'un d'eux a pu être exposé (capture d'écran partagée, commit accidentel, etc.).</p>
+    <ol class="steps">
+      <li><strong>Clé Hub (<code>mbs_...</code>)</strong> — Super Admin Hub → API Keys → révoquer l'ancienne, en créer une nouvelle avec les mêmes scopes (<code>auth:*</code>, <code>licenses:verify</code>) → mettre à jour <code>MBEUK_HUB_API_KEY</code> dans Vercel → redéployer.</li>
+      <li><strong>Clé Brevo</strong> (si <code>SAAS_BREVO_API_KEY</code> est utilisée) — console Brevo → SMTP &amp; API → révoquer/régénérer.</li>
+      <li><strong>Clé Chariow / paiement</strong> — si votre compte Chariow ou Stripe a une clé exposée, la régénérer depuis leur tableau de bord respectif.</li>
+      <li><strong>Ne collez jamais</strong> une clé réelle dans un chat IA, un ticket de support, un message Slack/WhatsApp, ou un fichier commité sur GitHub — même temporairement.</li>
+    </ol>
+  </div>
+</section>
+
+<section id="rls">
+  <h2><span class="num">2</span>Row Level Security — Supabase BYODB <span class="sev high">Important</span></h2>
+  <div class="card">
+    <p>Chaque église connecte <strong>son propre</strong> projet Supabase gratuit via le module "Cloud Sync BYODB" (indépendant du Hub). Ce projet Supabase est configuré par l'utilisateur final, pas par vous — mais un rappel dans votre documentation utilisateur est recommandé :</p>
+    <ul class="checklist">
+      <li>Activer RLS (<em>Row Level Security</em>) sur toutes les tables créées pour la synchronisation, même en usage mono-église — évite qu'une clé <code>anon</code> exposée ne donne un accès total à la base.</li>
+      <li>Ne jamais utiliser la clé <code>service_role</code> côté client (uniquement <code>anon</code>, avec RLS actif).</li>
+      <li>Vérifier dans Supabase → Authentication → Policies qu'au moins une politique restrictive existe par table avant la mise en production de chaque église.</li>
+    </ul>
+    <div class="callout">
+      <strong>Ce n'est pas automatisable depuis ce dépôt</strong>
+      Chaque église ayant son propre projet Supabase indépendant, ce rappel doit figurer dans votre guide utilisateur final (<code>GUIDE_DEPLOIEMENT.html</code>) ou votre onboarding client — pensez à l'y ajouter si ce n'est pas déjà fait.
+    </div>
+  </div>
+</section>
+
+<section id="ratelimit">
+  <h2><span class="num">3</span>Rate limiting réseau (Vercel / Cloudflare) <span class="sev high">Recommandé si trafic important</span></h2>
+  <div class="card">
+    <p>Le code applique déjà un rate limiting applicatif basique (par IP + par compte) sur les routes sensibles (<code>login</code>, <code>register</code>, <code>forgot-password</code>, etc.) — voir <code>lib/hub/rate-limit.js</code>. Il tourne en mémoire par instance serverless : suffisant contre un script isolé, pas contre un attaquant distribué. Pour une protection robuste :</p>
+    <ol class="steps">
+      <li><strong>Option simple : Vercel Firewall</strong> — Vercel → votre projet → Security → Firewall → activer une règle de limitation de débit sur <code>/api/hub/*</code> (disponible sur les plans Pro/Enterprise ; sur Hobby, privilégier l'option Upstash ci-dessous).</li>
+      <li><strong>Option robuste et gratuite à faible volume : Upstash Redis</strong> — créer une base sur <a href="https://upstash.com" target="_blank">upstash.com</a>, ajouter <code>UPSTASH_REDIS_REST_URL</code> et <code>UPSTASH_REDIS_REST_TOKEN</code> dans Vercel, puis installer <code>@upstash/ratelimit</code> et brancher <code>lib/hub/rate-limit.js</code> dessus (le module est structuré pour ça).</li>
+      <li><strong>Option Cloudflare</strong> — si votre domaine passe par Cloudflare (proxy orange activé), Security → WAF → Rate Limiting Rules → limiter <code>/api/hub/login</code> et <code>/api/hub/register</code> à quelques requêtes/minute par IP.</li>
+    </ol>
+  </div>
+</section>
+
+<section id="sessions">
+  <h2><span class="num">4</span>Révocation de sessions actives <span class="sev crit">En cas de doute uniquement</span></h2>
+  <div class="card">
+    <p>Si vous soupçonnez qu'un compte spécifique (ou l'ensemble de la base) a été compromis :</p>
+    <ul class="checklist">
+      <li>Depuis le Super Admin Hub, invalider les sessions actives du compte concerné (force une reconnexion, invalide les <code>session_token</code>/<code>refresh_token</code> en circulation).</li>
+      <li>Informer l'église concernée de changer son mot de passe dès la reconnexion (bouton "mot de passe oublié" dans l'app, déjà fonctionnel).</li>
+      <li>Vérifier dans les logs du Hub (si disponibles côté Super Admin) les connexions récentes sur le compte concerné : IP inhabituelle, device_identifier inconnu.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="doute">
+  <h2><span class="num">5</span>En cas de doute d'intrusion réelle <span class="sev crit">Prioritaire</span></h2>
+  <div class="card">
+    <ol class="steps">
+      <li><strong>Ne paniquez pas, mais n'attendez pas.</strong> Notez ce qui a été observé (message d'erreur, comportement anormal, alerte reçue) avec l'heure exacte.</li>
+      <li><strong>Rotation immédiate</strong> de toutes les clés listées en section 1, même sans certitude.</li>
+      <li><strong>Vérifiez les logs disponibles</strong> : Vercel → Deployments → Functions → logs des routes <code>/api/hub/*</code> (recherchez des pics de requêtes 401/403/429 inhabituels, signe de tentatives bloquées par les correctifs déjà en place).</li>
+      <li><strong>Contactez l'équipe Hub MbeukTechnologies</strong> si le doute porte sur le Hub lui-même (pas seulement sur ce SaaS) — eux seuls ont accès aux logs serveur du Hub central.</li>
+      <li><strong>Ne communiquez aucun secret</strong> (clé, mot de passe) pendant l'investigation, y compris à un outil d'IA — décrivez le symptôme, jamais la valeur du secret.</li>
+    </ol>
+  </div>
+</section>
+
+<section id="bonnes-pratiques">
+  <h2><span class="num">6</span>Bonnes pratiques à maintenir dans la durée</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>✅ Déjà en place (à ne pas régresser)</h3>
+      <ul class="checklist">
+        <li>Aucun secret dans le code client (vérifié par recherche exhaustive)</li>
+        <li><code>session_token</code>/<code>revoke-device</code>/<code>verify</code> exigent une preuve de session</li>
+        <li>Validation stricte des emails/longueurs sur toutes les routes</li>
+        <li>Messages d'erreur génériques (pas de fuite d'existence de compte)</li>
+        <li>En-têtes de sécurité HTTP (<code>vercel.json</code>)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>📌 À surveiller à chaque évolution du code</h3>
+      <ul class="checklist">
+        <li>Ne jamais faire <code>{...req.body}</code> vers le SDK — toujours lister les champs explicitement</li>
+        <li>Ne jamais renvoyer <code>error.details</code> brut du SDK au client</li>
+        <li>Tout nouvel écran affichant une donnée externe → <code>textContent</code>, jamais <code>innerHTML</code></li>
+        <li>Toute nouvelle route <code>/api/hub/*</code> → passer par <code>requirePost</code> + <code>rejectIfBadOrigin</code> + rate limiting dès sa création, pas après coup</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  MbeukChurch × Hub Central MbeukTechnologies — Guide de remédiation manuelle. À conserver avec votre projet, hors du dépôt public si possible (contient des rappels de procédure sensibles).
+</footer>
+
+</body>
+</html>

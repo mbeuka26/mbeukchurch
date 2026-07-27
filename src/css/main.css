@@ -1,0 +1,37 @@
+/* ============================================================
+   MbeukChurch — main.css
+   Variables globales (:root), reset, structure de layout de base.
+   Extrait mécaniquement de index.html (lignes 16-46) — contenu inchangé.
+   ============================================================ */
+
+:root{
+  /* ── Palette de base (inchangée) ── */
+  --nv:#0f2744;--nv2:#1a3a5c;--gd:#c9a84c;--gd2:#f0c96b;--wh:#fff;
+  --g1:#f2f4f7;--g2:#e4e7ed;--g3:#9ba3b4;--g4:#6b7280;
+  --rd:#e53935;--gn:#2e7d32;--gn2:#43a047;--bl:#1565c0;--pp:#6a1b9a;--tl:#00695c;
+  --tq:#00acc1;--rs:#d81b60;--ig:#3949ab;--or:#f57c00;
+  --sh:0 2px 16px rgba(15,39,68,.10);--sh2:0 4px 32px rgba(15,39,68,.18);--r:14px;--r2:8px;
+  /* ── Variables de personnalisation (Partie 6 – Architecture) ── */
+  --sidebar-bg:#0f2744;
+  --sidebar-text:rgba(255,255,255,.65);
+  --sidebar-text-active:#f0c96b;
+  --sidebar-accent:#c9a84c;
+  --main-bg:#f2f4f7;
+  --main-text:#0f2744;
+  --topbar-bg:#ffffff;
+  --topbar-text:#0f2744;
+  --card-bg:#ffffff;
+  --card-text:#0f2744;
+  --card-border:transparent;
+  --btn-primary-bg:#c9a84c;
+  --btn-primary-text:#0f2744;
+  --btn-secondary-bg:#0f2744;
+  --btn-secondary-text:#ffffff;
+  /* Transition globale pour changements de couleur fluides */
+  --color-transition:background-color .25s ease,color .25s ease,border-color .25s ease;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:clamp(14px,12px + 0.55vw,16px)}
+html,body{height:100%;font-family:"Segoe UI",system-ui,sans-serif;background:var(--main-bg);color:var(--main-text);transition:var(--color-transition)}
+body{overflow-x:hidden}
+#app{display:flex;height:100vh;overflow:hidden}

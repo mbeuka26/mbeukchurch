@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0f2744">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/icon.svg">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MbeukChurch">
+<meta name="mobile-web-app-capable" content="yes">
+<title>MbeukChurch — Church Management System</title>
+<style id="anti-fouc">
+  /* Anti-FOUC : masque le squelette de l'app tant que bootSaaS() (voir
+     main.js) n'a pas décidé de l'état d'authentification. bootSaaS()
+     remplace de toute façon body.innerHTML en tout premier, mais sur une
+     connexion lente le chargement du module JS peut prendre un instant —
+     ce style évite qu'un visiteur non authentifié n'aperçoive brièvement
+     la structure du menu avant ce remplacement. Retiré dynamiquement par
+     main.js une fois l'accès accordé (voir bootSaaS/launchApp). */
+  #app{visibility:hidden}
+</style>
+</head>
+<body>
+
+<div id="app">
+<nav id="sb">
+  <div class="sl"><div class="slt">&#10013; MbeukChurch</div><div class="sls">Church Management System</div></div>
+  <div class="snv">
+    <div class="ss">Principal</div>
+    <a class="ni" data-p="dashboard" href="#/dashboard"><span>&#128202;</span>Dashboard</a>
+    <a class="ni" data-p="membres" href="#/membres"><span>&#128101;</span>Membres</a>
+    <a class="ni" data-p="visiteurs" href="#/visiteurs"><span>&#128587;</span>Visiteurs</a>
+    <div class="ss">Finances</div>
+    <a class="ni" data-p="finances" href="#/finances"><span>&#128176;</span>Finances</a>
+    <a class="ni" data-p="dons" href="#/dons"><span>&#127873;</span>Dons &amp; D&#238;mes</a>
+    <a class="ni" data-p="budget" href="#/budget"><span>&#128203;</span>Budget</a>
+    <div class="ss">&#201;glise</div>
+    <a class="ni" data-p="evenements" href="#/evenements"><span>&#128197;</span>&#201;v&#233;nements</a>
+    <a class="ni" data-p="presences" href="#/presences"><span>&#128221;</span>Pr&#233;sences</a>
+    <a class="ni" data-p="ministeres" href="#/ministeres"><span>&#9962;</span>Minist&#232;res</a>
+    <a class="ni" data-p="mariages" href="#/mariages"><span>&#128146;</span>Mariages &amp; Bapt&#234;mes</a>
+    <div class="ss">Pastoral</div>
+    <a class="ni" data-p="priere" href="#/priere"><span>&#128591;</span>Intercession</a>
+    <a class="ni" data-p="communication" href="#/communication"><span>&#128226;</span>Communication</a>
+    <a class="ni" data-p="sermons" href="#/sermons"><span>&#128214;</span>Enseignements</a>
+    <a class="ni" data-p="agenda" href="#/agenda"><span>&#128467;</span>Agenda</a>
+    <div class="ss">Intelligence</div>
+    <a class="ni" data-p="assistant" href="#/assistant"><span>&#129302;</span>Assistant IA</a>
+    <div class="ss">Syst&#232;me</div>
+    <a class="ni" data-p="utilisateurs" href="#/utilisateurs"><span>&#128272;</span>Utilisateurs</a>
+    <a class="ni" data-p="rapports" href="#/rapports"><span>&#128200;</span>Rapports</a>
+    <a class="ni" data-p="recherche" href="#/recherche"><span>&#128269;</span>Recherche</a>
+    <a class="ni" data-p="guide" href="#/guide"><span>&#128218;</span>Guide d'utilisation</a>
+    <a class="ni" data-p="sync" href="#/sync"><span>&#9729;</span>Synchronisation</a>
+    <a class="ni" data-p="parametrage" href="#/parametrage"><span>&#9881;</span>Param&#233;trage</a>
+  </div>
+  <div class="sbot"><div class="sybg" id="sybg"><span class="dot" id="dot"></span><span id="stxt">En ligne</span></div></div>
+</nav>
+<div id="ov"></div>
+<div id="mnw">
+  <div id="tb"><button class="mbtn" id="mbtn">&#9776;</button><span class="tbt" id="pttl">Dashboard</span><div id="tba" style="display:flex;gap:7px;flex-wrap:wrap"></div></div>
+  <div id="ct"></div>
+</div>
+</div>
+<div id="nc"></div>
+<div class="mo" id="mo"><div class="mb2"><div id="mc"></div></div></div>
+<script type="module" src="/js/main.js"></script>
+</body>
+</html>

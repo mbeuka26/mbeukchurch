@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guide de déploiement — MbeukChurch × Hub Central</title>
+<style>
+  :root{
+    --nv:#0f2744; --nv2:#1a3a5c; --gd:#c9a84c; --gd2:#f0c96b;
+    --bg:#f6f7fb; --card:#ffffff; --ink:#1c2530; --muted:#5b6472; --line:#e4e7ed;
+    --ok:#2e7d32; --warn:#8a5a00; --warnbg:#fff6e0; --warnbd:#f0c96b;
+    --danger:#c62828; --dangerbg:#fdecea; --dangerbd:#f2b8b5;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'Segoe UI',Arial,sans-serif;line-height:1.6}
+  header{background:linear-gradient(135deg,#0a1d33 0%,var(--nv) 45%,var(--nv2) 100%);color:#fff;padding:40px 24px 32px}
+  header .wrap{max-width:960px;margin:0 auto}
+  header h1{margin:0 0 6px;font-size:1.7rem;color:var(--gd2)}
+  header p{margin:0;color:rgba(255,255,255,.75);font-size:.95rem}
+  nav.toc{max-width:960px;margin:-20px auto 0;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 22px;box-shadow:0 10px 30px rgba(0,0,0,.08);position:relative}
+  nav.toc h2{font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0 0 10px}
+  nav.toc ul{display:flex;flex-wrap:wrap;gap:10px;list-style:none;margin:0;padding:0}
+  nav.toc a{display:inline-block;padding:8px 14px;background:#f1f3f8;border-radius:20px;color:var(--nv);text-decoration:none;font-size:.85rem;font-weight:600}
+  nav.toc a:hover{background:#e5e9f2}
+  main{max-width:960px;margin:0 auto;padding:36px 24px 80px}
+  section{margin-bottom:44px}
+  h2{color:var(--nv);font-size:1.35rem;border-bottom:2px solid var(--line);padding-bottom:10px;margin-bottom:20px}
+  h2 .tag{display:inline-block;font-size:.7rem;font-weight:700;background:var(--gd);color:var(--nv);padding:3px 10px;border-radius:12px;margin-left:10px;vertical-align:middle}
+  h3{color:var(--nv);font-size:1.05rem;margin:24px 0 10px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,.03)}
+  ol.steps{margin:0;padding-left:22px}
+  ol.steps > li{margin-bottom:14px;padding-left:4px}
+  ol.steps strong{color:var(--nv)}
+  code, .code-inline{background:#eef1f7;color:#0f2744;padding:2px 7px;border-radius:6px;font-family:'Cascadia Code',Consolas,monospace;font-size:.88em}
+  pre{background:#0f2744;color:#e8edf6;padding:16px 18px;border-radius:12px;overflow-x:auto;font-size:.85rem;line-height:1.5}
+  pre code{background:none;color:inherit;padding:0}
+  .attn{border-left:5px solid var(--warnbd);background:var(--warnbg);color:var(--warn);padding:14px 18px;border-radius:0 10px 10px 0;margin:16px 0;font-size:.9rem}
+  .attn strong{display:block;margin-bottom:4px;color:#6b4600}
+  .danger{border-left:5px solid var(--dangerbd);background:var(--dangerbg);color:var(--danger);padding:14px 18px;border-radius:0 10px 10px 0;margin:16px 0;font-size:.9rem}
+  .danger strong{display:block;margin-bottom:4px}
+  .ok{border-left:5px solid #a5d6a7;background:#eef8ef;color:var(--ok);padding:14px 18px;border-radius:0 10px 10px 0;margin:16px 0;font-size:.9rem}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.88rem}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+  th{background:#f1f3f8;color:var(--nv)}
+  .checklist{list-style:none;padding:0;margin:0}
+  .checklist li{padding:8px 0 8px 30px;position:relative;border-bottom:1px solid var(--line)}
+  .checklist li:last-child{border-bottom:none}
+  .checklist li::before{content:'☐';position:absolute;left:0;top:8px;color:var(--gd);font-size:1.1rem}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr}}
+  .pill{display:inline-block;background:#0f2744;color:#f0c96b;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:10px}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;padding:30px 24px}
+  a{color:#1a56db}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>✝ Guide de déploiement — MbeukChurch</h1>
+    <p>Connexion au Hub Central MbeukTechnologies (licence · authentification · essai · réabonnement · quota appareils)</p>
+  </div>
+</header>
+
+<nav class="toc">
+  <h2>Sommaire</h2>
+  <ul>
+    <li><a href="#deja-deploye">A. Déjà déployé</a></li>
+    <li><a href="#premier-deploiement">B. Premier déploiement</a></li>
+    <li><a href="#variables">Variables d'environnement</a></li>
+    <li><a href="#tests">Tests après déploiement</a></li>
+    <li><a href="#nettoyage">Nettoyage ancien système</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<section id="intro">
+  <h2>Avant de commencer</h2>
+  <div class="card">
+    <p>Ce guide s'adresse à <strong>vous</strong>, propriétaire de MbeukChurch — aucune compétence technique n'est requise, suivez simplement les étapes numérotées dans l'ordre.</p>
+    <div class="danger">
+      <strong>⚠️ Sécurité — à lire avant tout</strong>
+      Ne collez JAMAIS votre clé Hub (elle commence par <code>mbs_</code>) dans un chat, un email, un ticket de support ou une capture d'écran. Elle ne doit exister que dans Vercel (Environment Variables) et, en local, dans un fichier <code>.env.local</code> qui n'est jamais envoyé sur GitHub.
+    </div>
+  </div>
+</section>
+
+<section id="deja-deploye">
+  <h2>A. Votre SaaS est déjà déployé <span class="tag">mise à jour</span></h2>
+  <div class="card">
+    <ol class="steps">
+      <li><strong>Récupérer le nouveau code.</strong> Si votre projet est sur GitHub : remplacez le contenu du dépôt par les fichiers de ce ZIP (gardez votre historique Git, ajoutez juste les fichiers modifiés/ajoutés), puis :
+        <pre><code>git add .
+git commit -m "Connexion au Hub Central MbeukTechnologies"
+git push origin main</code></pre>
+        Sinon (déploiement par upload manuel sur Vercel) : re-uploadez l'intégralité du dossier de ce ZIP (sans le dossier <code>node_modules</code> s'il existe).
+      </li>
+      <li><strong>Ajouter les variables d'environnement sur Vercel</strong> — allez dans votre projet Vercel → <em>Settings</em> → <em>Environment Variables</em>, puis ajoutez (voir <a href="#variables">détails ci-dessous</a>) :
+        <table>
+          <tr><th>Nom</th><th>Exemple</th></tr>
+          <tr><td><code>MBEUK_HUB_URL</code></td><td>https://hub.mbeuktech.com</td></tr>
+          <tr><td><code>MBEUK_HUB_API_KEY</code></td><td>mbs_••••••••••••••••</td></tr>
+          <tr><td><code>MBEUK_PRODUCT_ID</code></td><td>uuid-du-produit</td></tr>
+        </table>
+        Cochez les environnements <strong>Production</strong>, <strong>Preview</strong> et <strong>Development</strong>.
+      </li>
+      <li><strong>Ne jamais committer de secret.</strong> Le fichier <code>.env.example</code> livré ne contient que les noms des variables, jamais de vraie valeur — c'est normal et voulu.</li>
+      <li><strong>Relancer le déploiement.</strong> Si vous avez poussé sur GitHub, Vercel redéploie automatiquement. Sinon, dans Vercel → <em>Deployments</em> → bouton <strong>Redeploy</strong> sur le dernier déploiement.</li>
+      <li><strong>Effectuer les tests de fumée</strong> — voir la section <a href="#tests">Tests</a> plus bas : créer un compte, se connecter, mot de passe oublié, essai gratuit, quota d'appareils, réabonnement, cloud, vidage du navigateur.</li>
+      <li><strong>Rollback rapide si problème.</strong> Dans Vercel → <em>Deployments</em>, retrouvez le déploiement précédent (celui d'avant cette mise à jour) et cliquez sur <em>"Promote to Production"</em> (ou l'équivalent "Rollback"). Vos utilisateurs reviennent instantanément à l'ancienne version le temps de corriger.</li>
+      <li><strong>Nettoyage de l'ancien système</strong> — uniquement <em>après</em> avoir validé que tout fonctionne en production, voir la <a href="#nettoyage">checklist dédiée</a> plus bas.</li>
+    </ol>
+  </div>
+</section>
+
+<section id="premier-deploiement">
+  <h2>B. Votre SaaS n'est pas encore déployé <span class="tag">premier déploiement</span></h2>
+  <div class="card">
+    <ol class="steps">
+      <li><strong>Créer le projet sur Vercel.</strong> Sur <a href="https://vercel.com/new" target="_blank">vercel.com/new</a>, importez votre dépôt GitHub (ou uploadez ce dossier directement si vous n'utilisez pas Git).</li>
+      <li><strong>Configuration du framework.</strong> Vercel détecte automatiquement <strong>Vite</strong> ; vérifiez simplement :
+        <table>
+          <tr><th>Réglage</th><th>Valeur</th></tr>
+          <tr><td>Framework Preset</td><td>Vite</td></tr>
+          <tr><td>Build Command</td><td><code>npm run build</code></td></tr>
+          <tr><td>Output Directory</td><td><code>dist</code></td></tr>
+          <tr><td>Install Command</td><td><code>npm install</code></td></tr>
+        </table>
+        Le dossier <code>api/</code> (routes Hub) est détecté automatiquement par Vercel comme fonctions serverless — rien à configurer.
+      </li>
+      <li><strong>Renseigner les 3 variables Hub AVANT le premier déploiement</strong> — voir la section <a href="#variables">Variables</a> ci-dessous. Sans elles, l'app affiche un message "configuration manquante" au lieu de planter silencieusement — mais l'auth ne fonctionnera pas tant qu'elles sont vides.</li>
+      <li><strong>Premier déploiement</strong> — cliquez sur <em>Deploy</em>. Vercel construit puis met en ligne votre site sur une URL du type <code>votre-projet.vercel.app</code>.</li>
+      <li><strong>Lier votre domaine (optionnel)</strong> — dans Vercel → <em>Settings</em> → <em>Domains</em>, ajoutez votre nom de domaine (ex. <code>mbeukchurch.com</code>) et suivez les instructions DNS affichées.</li>
+      <li><strong>Tests de fumée</strong> — voir la section <a href="#tests">Tests</a>.</li>
+      <li><strong>Checklist "go-live"</strong> :
+        <ul class="checklist">
+          <li>Migration <code>023</code> appliquée sur le Hub</li>
+          <li>Clé <code>mbs_...</code> créée avec les scopes <code>auth:*</code>, <code>licenses:verify</code></li>
+          <li><code>product_id</code> du produit MbeukChurch copié depuis le Super Admin Hub</li>
+          <li>Les 3 variables sont bien renseignées dans Vercel (Production)</li>
+          <li>Un compte de test a pu créer un essai gratuit et se connecter</li>
+        </ul>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section id="variables">
+  <h2>Variables d'environnement</h2>
+  <div class="card">
+    <p>Ces 3 variables sont <strong>obligatoires</strong> et doivent être saisies côté serveur uniquement (Vercel / <code>.env.local</code>) — jamais dans le code.</p>
+    <table>
+      <tr><th>Variable</th><th>Description</th><th>Où la trouver</th></tr>
+      <tr><td><code>MBEUK_HUB_URL</code></td><td>URL du Hub Central, sans <code>/</code> final</td><td>Fournie par MbeukTechnologies</td></tr>
+      <tr><td><code>MBEUK_HUB_API_KEY</code></td><td>Clé secrète <code>mbs_...</code></td><td>Super Admin Hub → API Keys</td></tr>
+      <tr><td><code>MBEUK_PRODUCT_ID</code></td><td>UUID du produit "MbeukChurch"</td><td>Super Admin Hub → Produits</td></tr>
+    </table>
+    <div class="attn">
+      <strong>Ne préfixez jamais ces noms par <code>VITE_</code> ou <code>NEXT_PUBLIC_</code></strong>
+      Un tel préfixe les ferait fuiter dans le code envoyé au navigateur de vos utilisateurs — la clé <code>mbs_...</code> deviendrait publique.
+    </div>
+    <h3>En local (développement)</h3>
+    <p>Créez un fichier <code>.env.local</code> à la racine du projet (déjà ignoré par Git) en copiant <code>.env.example</code> et en renseignant les vraies valeurs :</p>
+    <pre><code>cp .env.example .env.local
+# puis éditez .env.local avec vos vraies valeurs</code></pre>
+  </div>
+</section>
+
+<section id="tests">
+  <h2>Tests après déploiement</h2>
+  <div class="card grid2">
+    <div>
+      <h3>Parcours utilisateur</h3>
+      <ul class="checklist">
+        <li>Créer un compte (email + mot de passe)</li>
+        <li>Essai gratuit démarré automatiquement (1 appareil)</li>
+        <li>Se déconnecter puis se reconnecter</li>
+        <li>Mot de passe oublié → email reçu avec un nouveau mot de passe</li>
+        <li>Vider les données du navigateur → reconnexion → licence retrouvée (pas de nouvel achat exigé)</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Paiement &amp; appareils</h3>
+      <ul class="checklist">
+        <li>Bouton "Réabonner" → redirection vers la page de paiement Chariow</li>
+        <li>Code promo appliqué correctement au paiement (si utilisé)</li>
+        <li>Retour après paiement → accès rétabli, même compte</li>
+        <li>Connexion sur un 3ᵉ appareil (si <code>max_devices=2</code>) → écran quota → révoquer un appareil → reconnexion réussie</li>
+        <li>Mode hors-ligne → l'app reste utilisable (cache local, 5 jours de grâce)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="nettoyage">
+  <h2>Nettoyage de l'ancien système <span class="tag">après validation prod</span></h2>
+  <div class="card">
+    <div class="ok"><strong>À faire uniquement après avoir confirmé, en production, que la connexion / l'essai / le réabonnement fonctionnent avec le Hub.</strong></div>
+    <ul class="checklist">
+      <li>Retirer l'ancien projet Supabase central d'authentification (celui utilisé pour les tables <code>licenses</code> / <code>user_licenses</code> / <code>user_devices</code>) — conservez une sauvegarde avant toute suppression</li>
+      <li>Ne DROP les tables <code>licenses</code>, <code>user_licenses</code>, <code>user_devices</code> qu'après confirmation explicite que plus aucun utilisateur n'a besoin de l'ancien système</li>
+      <li>Vérifier qu'aucun lien statique "Acheter une licence" (<code>BUY_LINK</code>) n'est plus utilisé ailleurs (emails, réseaux sociaux, site vitrine)</li>
+      <li>Informer vos utilisateurs actifs du changement si leur compte allait changer d'email/mot de passe (normalement non nécessaire — le Hub réutilise le même compte)</li>
+    </ul>
+    <div class="attn">
+      <strong>Cloud Central IA (point d'attention technique)</strong>
+      Deux fonctions premium optionnelles (assistant IA "Claude Central" et emails Brevo "Cloud Central") utilisaient l'ancienne session Supabase pour s'authentifier auprès d'une Edge Function. Elles nécessitent une petite adaptation côté Edge Function pour accepter la nouvelle session du Hub — voir <code>HUB_INTEGRATION.md</code> section 5 pour le détail technique à transmettre à votre développeur.
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  MbeukChurch × Hub Central MbeukTechnologies — Guide généré pour accompagner cette mise à jour. Conservez ce fichier avec votre projet.
+</footer>
+
+</body>
+</html>

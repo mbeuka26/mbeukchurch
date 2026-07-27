@@ -128,8 +128,9 @@ export const LIC = {
   },
 
   /** Réabonnement / achat — toujours avec le même email de compte. */
-  async startCheckout(promoCode) {
-    if (!AUTH.user) return { ok: false, error: { code: 'NOT_LOGGED_IN', message: 'Connectez-vous d\'abord.' } };
-    return HubService.startCheckout(AUTH.user.email, { promoCode });
+  async startCheckout(promoCode, emailOverride) {
+    const email = emailOverride || (AUTH.user && AUTH.user.email);
+    if (!email) return { ok: false, error: { code: 'NOT_LOGGED_IN', message: 'Connectez-vous d\'abord.' } };
+    return HubService.startCheckout(email, { promoCode });
   },
 };

@@ -197,10 +197,11 @@ async function bootSaaS() {
       }
       return;
     } else {
+      const emailBeforeClear = AUTH.user && AUTH.user.email; // capturé AVANT clear()
       AUTH.clear();
       const blocked = ['trial_expired', 'license_expired', 'max_devices'];
       if (blocked.includes(licRes.reason)) {
-        showBlockedScreen(licRes.reason); return;
+        showBlockedScreen(licRes.reason, emailBeforeClear); return;
       }
       showAuthScreen(licRes.reason === 'offline_no_cache' ? null : '⚠️ Session expirée, veuillez vous reconnecter.');
       return;

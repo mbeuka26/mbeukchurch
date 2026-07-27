@@ -304,7 +304,7 @@ export async function doLogin() {
     return;
   }
   if (!res.ok) {
-    if (res.licenseInvalid) { authErr(licenseMessage(res.reason)); return; }
+    if (res.licenseInvalid) { showBlockedScreen(res.reason, email); return; }
     authErr((res.error && res.error.message) || 'Email ou mot de passe incorrect.');
     return;
   }
@@ -327,7 +327,8 @@ export async function doRegister() {
   authLoad('Connexion...');
   const loginRes = await LIC.login(email, pass);
   if (loginRes.deviceLimitReached) { authClearMsg(); showDeviceQuotaScreen(loginRes.email, loginRes.devices || [], loginRes.sessionToken); return; }
-  if (!loginRes.ok && !loginRes.licenseInvalid) { authErr((loginRes.error && loginRes.error.message) || 'Compte créé, mais connexion impossible. Réessayez.'); return; }
+  if (loginRes.licenseInvalid) { showBlockedScreen(loginRes.reason, email); return; }
+  if (!loginRes.ok) { authErr((loginRes.error && loginRes.error.message) || 'Compte créé, mais connexion impossible. Réessayez.'); return; }
 
   if (AUTH.profile === null) AUTH.profile = {};
   AUTH.profile.name = name || '';
@@ -412,7 +413,10 @@ export async function doRevokeDevice(email, deviceIdentifier, sessionToken) {
 
 // ── EXPIRED / BLOCKED SCREEN (réabonnement) ──
 
-export function showBlockedScreen(reason) {
+let BLOCKED_SCREEN_EMAIL = null; // capturé au moment de l'affichage, survit à un AUTH.clear()
+
+export function showBlockedScreen(reason, email) {
+  BLOCKED_SCREEN_EMAIL = email || (AUTH.user && AUTH.user.email) || null;
   const msgs = {
     trial_expired: {
       title: '⏰ Essai gratuit expiré',
@@ -457,7 +461,11 @@ export function showBlockedScreen(reason) {
 
 export async function doStartReabonnement() {
   const errEl = document.getElementById('blk-err');
-  const res = await LIC.startCheckout();
+  if (!BLOCKED_SCREEN_EMAIL) {
+    if (errEl) { errEl.textContent = 'Session introuvable — reconnectez-vous puis réessayez.'; errEl.style.display = 'block'; }
+    return;
+  }
+  const res = await LIC.startCheckout(undefined, BLOCKED_SCREEN_EMAIL);
   if (!res.ok) {
     if (errEl) { errEl.textContent = (res.error && res.error.message) || 'Erreur lors de l\'ouverture du paiement.'; errEl.style.display = 'block'; }
     return;
